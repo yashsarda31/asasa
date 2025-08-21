@@ -1,0 +1,9 @@
+"""
+streamlit
+yfinance
+pandas
+numpy
+plotly
+pandas-ta
+python-dateutil
+"""
