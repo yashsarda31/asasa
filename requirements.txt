@@ -5,4 +5,5 @@ numpy
 plotly
 pandas-ta
 python-dateutil
-
+scikit-learn
+tensorflow
