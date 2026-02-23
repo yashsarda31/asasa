@@ -222,8 +222,21 @@ def calculate_technical_indicators(df):
     # Additional Indicators
     df['ROC'] = ta.roc(df['Close'], length=10)
     df['CMO'] = ta.cmo(df['Close'], length=14)
-    df['TRIX'] = ta.trix(df['Close'], length=14)
-    df['TSI'] = ta.tsi(df['Close'])
+
+    # pandas-ta can return Series or multi-column DataFrame depending on version/options
+    trix = ta.trix(df['Close'], length=14)
+    if isinstance(trix, pd.DataFrame):
+        trix_col = next((c for c in trix.columns if 'TRIX' in c.upper()), trix.columns[0])
+        df['TRIX'] = trix[trix_col]
+    else:
+        df['TRIX'] = trix
+
+    tsi = ta.tsi(df['Close'])
+    if isinstance(tsi, pd.DataFrame):
+        tsi_col = next((c for c in tsi.columns if c.upper().startswith('TSI')), tsi.columns[0])
+        df['TSI'] = tsi[tsi_col]
+    else:
+        df['TSI'] = tsi
     
     # Volatility
     df['NATR'] = ta.natr(df['High'], df['Low'], df['Close'], length=14)
